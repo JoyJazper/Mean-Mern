@@ -38,4 +38,39 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//new edit
+var path = require('path');
+var fs = require('fs');
+//var helmet = require('helmet');
+//app.use(helmet());
+
+app.use(express.static('../myWebpage/'));
+
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname + '/../myWebpage/'));
+    // res.send('Get Request!')
+})
+
+function readFile( url ){
+    fs.readFile(url, 'utf8', function( err, data ){
+        if ( err ) {
+            console.log( 'error', err );
+        } else {
+            console.log('file read');
+            return data;
+        }
+    });
+}
+
+function saveFile( url, body ){
+    fs.writeFile(url, body, (err) => {
+        if (err) {
+            console.log('Error saving');
+            throw err;
+        } else {
+            console.log('It\'s saved!');
+        }
+    });
+}
+
 module.exports = app;
